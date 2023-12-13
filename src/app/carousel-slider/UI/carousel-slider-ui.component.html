@@ -1,10 +1,10 @@
 <main class="container">
     @if (previousBtn) {
-        <button  class="action-btn" (click)="previousImageFn()"> < </button>
+        <button  class="action-btn" (click)="previousSlideFn()"> < </button>
     }
 
     <div class="image-container">
-        @for (url of data; track $index) {
+        @for (url of slides; track $index) {
             <div 
                 class="image-item"
                 [ngClass]="{'active': $index === currentIndex }"
@@ -16,15 +16,15 @@
     </div>
 
     @if (nextBtn) {
-        <button class="action-btn" (click)="nextImageFn()"> > </button>
+        <button class="action-btn" (click)="nextSlideFn()"> > </button>
     }
     
     <div class="bottom-bar">
-        @for (item of data; track $index) {
+        @for (item of slides; track $index) {
             <div 
             class="bottom-item" 
             [ngClass]="{'active': $index === currentIndex }"
-            (click)="currentIndex = $index"
+            (click)="bottomBarFn($index)"
             ></div>
         }
     </div>

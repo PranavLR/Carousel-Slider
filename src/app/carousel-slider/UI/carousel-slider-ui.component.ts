@@ -11,7 +11,7 @@ import { Subscription, interval, share } from 'rxjs';
 })
 export class CarouselSliderUiComponent implements OnInit{
   // @Input({required: true, alias: "data"}) data$!: Observable<string[]>
-  @Input({required: true}) data: string[] = []
+  @Input({required: true}) slides: string[] = []
   @Input() previousBtn: boolean = true
   @Input() nextBtn: boolean = true
 
@@ -24,7 +24,7 @@ export class CarouselSliderUiComponent implements OnInit{
   }
 
   startAutoPlayTimerFn(): void {
-    this.autoPlayTimerSubs = this.autoPlayTimer$.pipe().subscribe(() => this.nextImageFn());
+    this.autoPlayTimerSubs = this.autoPlayTimer$.pipe().subscribe(() => this.nextSlideFn());
   }
 
   restartAutoPlayTimerFn(): void {
@@ -34,17 +34,17 @@ export class CarouselSliderUiComponent implements OnInit{
     this.startAutoPlayTimerFn();
   }
 
-  previousImageFn(): void {
+  previousSlideFn(): void {
     if(this.currentIndex === 0) {
-      this.currentIndex = this.data.length - 1;
+      this.currentIndex = this.slides.length - 1;
       return
     }
     this.currentIndex--;
     
   }
   
-  nextImageFn(): void {
-    this.currentIndex = (this.currentIndex + 1) % this.data.length; 
+  nextSlideFn(): void {
+    this.currentIndex = (this.currentIndex + 1) % this.slides.length; 
     this.restartAutoPlayTimerFn();
     // if(this.currentIndex === this.data.length - 1) {
     //   this.currentIndex = 0;
@@ -53,5 +53,9 @@ export class CarouselSliderUiComponent implements OnInit{
     // this.currentIndex++;
   }
 
+  bottomBarFn(index: number): void {
+    this.currentIndex = index
+    this.restartAutoPlayTimerFn();
+  }
 
 }

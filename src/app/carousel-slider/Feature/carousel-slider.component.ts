@@ -15,7 +15,7 @@ export class CarouselSliderComponent{
 
   api = inject(ApiService);
   
-  data$ = this.api.getAllImages().pipe(map((item) => {
+  slides$ = this.api.getAllImages().pipe(map((item) => {
     return item.map((x) => x.download_url)
   }))
   
