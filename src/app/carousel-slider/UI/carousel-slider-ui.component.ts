@@ -14,6 +14,8 @@ export class CarouselSliderUiComponent implements OnInit{
   @Input({required: true}) slides: string[] = []
   @Input() previousBtn: boolean = true
   @Input() nextBtn: boolean = true
+  @Input() containerHeight: string = '400px';
+  @Input() containerWidth: string = '400px';
 
   currentIndex: number = 0
   autoPlayTimer$ = interval(3000).pipe(share());

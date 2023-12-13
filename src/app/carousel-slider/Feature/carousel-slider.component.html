@@ -1,10 +1,12 @@
 <!-- <div style="height: 500px; width: 100%; margin: auto;"> -->
 
     <app-carousel-slider-ui 
-    *ngIf="slides$ | async as slides" 
-    [slides]="slides"
+        *ngIf="slides$ | async as slides" 
+        [slides]="slides"
         [previousBtn]="true"
         [nextBtn]="true"
-    />
-    
+        [containerHeight]="'400px'"
+        [containerWidth]="'400px'"
+        />
+
 <!-- </div> -->

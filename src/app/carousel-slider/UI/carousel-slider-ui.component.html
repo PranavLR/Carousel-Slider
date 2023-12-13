@@ -3,7 +3,10 @@
         <button  class="action-btn" (click)="previousSlideFn()"> < </button>
     }
 
-    <div class="image-container">
+    <div class="image-container"
+        [style.height]="containerHeight"
+        [style.width]="containerWidth"
+        >
         @for (url of slides; track $index) {
             <div 
                 class="image-item"
