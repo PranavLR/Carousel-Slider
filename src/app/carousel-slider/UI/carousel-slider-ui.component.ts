@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { interval, share } from 'rxjs';
+import { Subscription, interval, share } from 'rxjs';
 
 @Component({
   selector: 'app-carousel-slider-ui',
@@ -16,17 +16,25 @@ export class CarouselSliderUiComponent implements OnInit{
   @Input() nextBtn: boolean = true
 
   currentIndex: number = 0
-  autoPlayTimer = interval(3000).pipe(share());
+  autoPlayTimer$ = interval(3000).pipe(share());
+  autoPlayTimerSubs = new Subscription();
 
   ngOnInit(): void {
-    this.startIntervalFunction();
+    this.startAutoPlayTimerFn();
   }
 
-  startIntervalFunction(): void {
-    this.autoPlayTimer.pipe().subscribe(() => this.nextImageFn());
+  startAutoPlayTimerFn(): void {
+    this.autoPlayTimerSubs = this.autoPlayTimer$.pipe().subscribe(() => this.nextImageFn());
   }
 
-  previousImageFn() {
+  restartAutoPlayTimerFn(): void {
+    if(this.autoPlayTimerSubs) {
+      this.autoPlayTimerSubs.unsubscribe();
+    }
+    this.startAutoPlayTimerFn();
+  }
+
+  previousImageFn(): void {
     if(this.currentIndex === 0) {
       this.currentIndex = this.data.length - 1;
       return
@@ -35,9 +43,9 @@ export class CarouselSliderUiComponent implements OnInit{
     
   }
   
-  nextImageFn() {
+  nextImageFn(): void {
     this.currentIndex = (this.currentIndex + 1) % this.data.length; 
-    
+    this.restartAutoPlayTimerFn();
     // if(this.currentIndex === this.data.length - 1) {
     //   this.currentIndex = 0;
     //   return
