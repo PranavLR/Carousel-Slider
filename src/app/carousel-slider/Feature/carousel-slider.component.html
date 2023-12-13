@@ -1,0 +1,8 @@
+<!-- @if (data$) { -->
+    <app-carousel-slider-ui 
+        *ngIf="data$ | async as data" 
+        [data]="data"
+        [previousBtn]="true"
+        [nextBtn]="true"
+    />
+<!-- } -->

@@ -1,0 +1,32 @@
+<main class="container">
+    @if (previousBtn) {
+        <button  class="action-btn" (click)="previousImageFn()"> < </button>
+    }
+
+    <div class="image-container">
+        @for (url of data; track $index) {
+            <div 
+                class="image-item"
+                [ngClass]="{'active': $index === currentIndex }"
+                [style]="'--index:' + currentIndex"
+                >
+                <img [src]="url">
+            </div>
+        }
+    </div>
+
+    @if (nextBtn) {
+        <button class="action-btn" (click)="nextImageFn()"> > </button>
+    }
+    
+    <div class="bottom-bar">
+        @for (item of data; track $index) {
+            <div 
+            class="bottom-item" 
+            [ngClass]="{'active': $index === currentIndex }"
+            (click)="currentIndex = $index"
+            ></div>
+        }
+    </div>
+
+</main>
