@@ -16,12 +16,15 @@ export class CarouselSliderUiComponent implements OnInit{
   @Input() nextBtn: boolean = true
   @Input() containerHeight: string = '400px';
   @Input() containerWidth: string = '400px';
+  @Input() slideIntervalTime: number = 3000;
+  @Input() isInterval: boolean = true;
 
   currentIndex: number = 0
-  autoPlayTimer$ = interval(3000).pipe(share());
+  autoPlayTimer$ = interval(this.slideIntervalTime).pipe(share());
   autoPlayTimerSubs = new Subscription();
 
   ngOnInit(): void {
+    if(!this.isInterval) return
     this.startAutoPlayTimerFn();
   }
 
@@ -30,6 +33,7 @@ export class CarouselSliderUiComponent implements OnInit{
   }
 
   restartAutoPlayTimerFn(): void {
+    if(!this.isInterval) return
     if(this.autoPlayTimerSubs) {
       this.autoPlayTimerSubs.unsubscribe();
     }
@@ -42,7 +46,7 @@ export class CarouselSliderUiComponent implements OnInit{
       return
     }
     this.currentIndex--;
-    
+    this.restartAutoPlayTimerFn();
   }
   
   nextSlideFn(): void {
