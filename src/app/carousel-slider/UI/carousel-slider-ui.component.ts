@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { Subscription, interval, share } from 'rxjs';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription, interval, share } from 'rxjs';
 
 @Component({
   selector: 'app-carousel-slider-ui',
@@ -9,7 +9,7 @@ import { Subscription, interval, share } from 'rxjs';
   templateUrl: './carousel-slider-ui.component.html',
   styleUrl: './carousel-slider-ui.component.scss'
 })
-export class CarouselSliderUiComponent implements OnInit{
+export class CarouselSliderUiComponent implements OnInit, OnDestroy{
   // @Input({required: true, alias: "data"}) data$!: Observable<string[]>
   @Input({required: true}) slides: string[] = []
   @Input() previousBtn: boolean = true
@@ -20,10 +20,14 @@ export class CarouselSliderUiComponent implements OnInit{
   @Input() isInterval: boolean = true;
 
   currentIndex: number = 0
-  autoPlayTimer$ = interval(this.slideIntervalTime).pipe(share());
+  autoPlayTimer$!: Observable<number>
   autoPlayTimerSubs = new Subscription();
 
+  constructor() {}
+
   ngOnInit(): void {
+    this.autoPlayTimer$ = interval(this.slideIntervalTime).pipe(share());
+
     if(!this.isInterval) return
     this.startAutoPlayTimerFn();
   }
@@ -64,4 +68,7 @@ export class CarouselSliderUiComponent implements OnInit{
     this.restartAutoPlayTimerFn();
   }
 
+  ngOnDestroy(): void {
+      this.autoPlayTimerSubs.unsubscribe();
+  }
 }
